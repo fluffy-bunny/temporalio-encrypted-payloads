@@ -54,4 +54,4 @@ type HelloRequest struct {
 }
 ```  
 
-![protected temporal data](./Docs/temporalio-encrypted-payloads.JPG)
+![protected temporal data](./docs/temporalio-encrypted-payloads.JPG)
