@@ -95,7 +95,8 @@ func (dc *CryptDataConverter) ToPayload(value interface{}) (*commonpb.Payload, e
 	if payload != nil {
 
 		cryptData := payload.GetData()
-		if HasProtectMe(value) {
+		if HasProtectMeOption(value) {
+			//if false {
 			cryptData, err = encrypt(cryptData, dc.getKey())
 		}
 
@@ -126,7 +127,8 @@ func (dc *CryptDataConverter) FromPayload(payload *commonpb.Payload, valuePtr in
 	var err error
 
 	decryptData := payload.GetData()
-	if HasProtectMe(valuePtr) {
+	if HasProtectMeOption(valuePtr) {
+		//if false {
 		decryptData, err = decrypt(decryptData, dc.getKey())
 	}
 	if err != nil {

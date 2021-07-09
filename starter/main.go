@@ -4,10 +4,10 @@ import (
 	"context"
 	"log"
 
+	cryptconverter "github.com/temporalio/samples-go/encrypted-payloads"
+	pb "github.com/temporalio/samples-go/encrypted-payloads/helloworld"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/converter"
-
-	cryptconverter "github.com/temporalio/samples-go/encrypted-payloads"
 )
 
 func main() {
@@ -30,8 +30,8 @@ func main() {
 	}
 
 	// The workflow input "My Secret Friend" will be encrypted by the DataConverter before being sent to Temporal
-	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, cryptconverter.Workflow, &cryptconverter.SensitivePayload{
-		Secret: "My Secret Friend",
+	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, cryptconverter.Workflow, &pb.HelloRequest{
+		Name: "My Secret Friend",
 	})
 	if err != nil {
 		log.Fatalln("Unable to execute workflow", err)
@@ -40,7 +40,7 @@ func main() {
 	log.Println("Started workflow", "WorkflowID", we.GetID(), "RunID", we.GetRunID())
 
 	// Synchronously wait for the workflow completion.
-	var result *cryptconverter.SensitivePayload
+	var result *pb.HelloReply
 	err = we.Get(context.Background(), &result)
 	if err != nil {
 		log.Fatalln("Unable get workflow result", err)
